@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Scroll Synced Documentation</title>
+  <title>Custom Grading Tools</title>
   <link rel="stylesheet" href="styles2.css" />
 <link
   href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
@@ -53,30 +53,29 @@
 
     <div class="step active" data-step="1">
         <h2>Giving students a voice when creating teams</h2>
-        <p>In lieu of a final exam, the conclusion of the course (Practical English IV) would be a "team presentation". 
-            The first step </p>
-        <p>The first step was to ask students questions about their presentation grading preferences, 
-            such as which aspects of a presentation they think should affect their grade, 
-            and who they trust to give them a fair grade.</p>
-        <p>Students were already familiar with <em>Kahoot!</em> so we used a <em>Kahoot!</em> quiz to pose the questions.
-        We asked students about the importance of the following:<ul>
-            <li>preparation</li>
-            <li>slides</li>
-            <li>speaking loudly and clearly</li>
-            <li>presentation length</li>
-            <li>being entertaining</li>
-            <li>choosing an interesting topic</li>
-        </ul></p>
+        <p>In lieu of a final exam, the second-year course (Practical English IV) would conclude with a "team presentation".</p>
+        <p>Before creating teams, we used a tool called <a href="https://clevergroups.com/" target="_blank">Clever 
+            Groups</a> to collect students' preferences about who they would like to work with.</p>
+        <p>When students followed the Clever Groups link we gave them, they were asked to select their first name 
+            (and an initial where necessary to distinguish between students with the same first name)
+            from a list of students in the class.</p>
+        <p>After a student selects their name, they see a dropdown menu containing the names of all their classmates and they are asked to choose their first preference
+            (the student they most want to work with). Students can select as many preferences as they like (even zero).</p>
+        <p>After all students have had an opportunity to enter their preferences, we log in to
+            Clever Groups and ask the site to generate teams given certain parameters (maximum team size, number of teams, etc.). Clever Groups then uses an algorithm to identify
+            the optimum allocation of students to teams (i.e., the allocation that best fits student preferences).
+        </p>
+        <p>We could even have triggered this team allocation in front of the students, during class, to demonstrate
+            that we were not adjusting the allocation to suit our personal preferences, etc.
+        </p>
       </div>
 
       <div class="step active" data-step="2">
-        <h2>Collecting student preferences</h2>
-        <p>In lieu of a final exam, the conclusion of the course (Practical English IV) would be a "team presentation". 
-            Students were given </p>
-        <p>The first step was to ask students questions about their presentation grading preferences, 
+        <h2>Collecting student grading preferences</h2>
+        <p>The next step was to ask students questions about their presentation grading preferences, 
             such as which aspects of a presentation they think should affect their grade, 
             and who they trust to give them a fair grade.</p>
-        <p>Students were already familiar with <em>Kahoot!</em> so we used a <em>Kahoot!</em> quiz to pose the questions.
+        <p>Students were already familiar with <em>Kahoot!</em> from other classroom activities so we used a <em>Kahoot!</em> quiz (polls and scales) to pose the questions.
         We asked students about the importance of the following:<ul>
             <li>preparation</li>
             <li>slides</li>
@@ -84,12 +83,43 @@
             <li>presentation length</li>
             <li>being entertaining</li>
             <li>choosing an interesting topic</li>
+            <li>how cohesive the team's presentation is overall</li>
+            <li>grading other students fairly</li>
         </ul></p>
+        <p>We also asked students about how they wanted to grade other students. Specifically, we asked them about:
+            <ul>
+                <li>mechanics: online or on-paper</li>
+                <li>timing: during the presentations or afterwards</li>
+                <li>composition: one score for the whole team or separate scores per speaker</li>
+                <li>scaffolding: whether they wanted us to provide a rubric or not</li>
+            </ul>
+            </p>
+        <p>Finally, we asked students about how much they trusted the following people to give them a fair grade:
+            <ul>
+                <li>The teacher</li>
+                <li>Their teammates</li>
+                <li>Their classmates</li>
+            </ul>
+        </p>
       </div>
 
       <div class="step" data-step="3">
-        <h2>Preview Changes</h2>
-        <p>Use previews to see live updates as you build.</p>
+        <h2>Processing students grading preferences</h2>
+        <p>Once the <em>Kahoot!</em> quizzes were finished, we downloaded the results files (XLSX).</p>
+        <p>We then used a Microsoft Visual Basic for Applications (VBA) script to parse each results file and identify the "winning" statements.
+            The "winning" statement in a particular category (e.g., preparation) was determined to be 
+            the statement that received more votes from students than any other (e.g., "Preparation is important and should be graded").
+        </p>
+        <p>The script generated a results table that clearly showed us:
+            <ul><li>which aspects of their presentation they wanted to be graded,</li>
+                <li>who the students wanted to give them grades (the teacher, their classmates, or their teammates), and</li>
+                <li>what their methodological preferences were (rubric, online, single score out of 10, etc.).</li>
+            </ul>
+        </p>
+        <p>The results table also ranked the three grader categories (teacher, classmates, teammates) by the amount of trust students had in their ability to grade fairly.
+        </p>
+        <p>There were notable differences between the preferences expressed by all of our classes, which meant that we would need to adopt different grading strategies for each class, if we were to respect student preferences.
+        </p>
       </div>
     </section>
 
@@ -105,8 +135,66 @@
 
       <div class="panel" data-step="3">
         <p style="font-size:1.1rem;">
-          SwiftUI previews update automatically as you type.
-        </p>
+          <pre><code class="language-vbnet">
+            For x = 2 To y - 7 Step 1
+    Select Case Winners(x, 1)
+        Case "Preparation is important and should be graded"
+            Winners(z, 3) = "Preparation"
+            For a = 2 To y - 7 Step 1
+                Select Case Winners(a, 1)
+                    Case "My teammates should decide my grade for preparation"
+                        Winners(z, 4) = "Teammates"
+                        MsgBox "Teammates preparation"
+                    Case "The whole class should decide my grade for preparation": Winners(z, 4) = "Whole class"
+                    Case "The teacher should decide my grade for preparation": Winners(z, 4) = "Teacher"
+                    Case "Students should receive a lower grade if they prepare close to the deadline": Winners(z, 5) = "Preparing early = better grade"
+                End Select
+            Next a
+            z = z + 1
+        Case "Slides are important and they should be graded"
+            Winners(z, 3) = "Slides"
+            For a = 2 To y - 7 Step 1
+                Select Case Winners(a, 1)
+                    Case "My teammates should decide my grade for my slides": Winners(z, 4) = "Teammates"
+                    Case "The whole class should decide my grade for my slides": Winners(z, 4) = "Whole class"
+                    Case "The teacher should decide my grade for my slides": Winners(z, 4) = "Teacher"
+                End Select
+            Next a
+            z = z + 1
+        Case "Speaking loudly and clearly is important and it should be graded"
+            Winners(z, 3) = "Speaking loudly and clearly"
+            For a = 2 To y - 7 Step 1
+                Select Case Winners(a, 1)
+                    Case "My teammates should check whether I speak loudly and clearly": Winners(z, 4) = "Teammates"
+                    Case "The whole class should check whether I speak loudly and clearly": Winners(z, 4) = "Whole class"
+                    Case "The teacher should check whether I speak loudly and clearly": Winners(z, 4) = "Teacher"
+                End Select
+            Next a
+            z = z + 1
+        Case "Speaking for at least one minute is important and it should be graded"
+            Winners(z, 3) = "Whether I speak for at least one minute"
+            For a = 2 To y - 7 Step 1
+                Select Case Winners(a, 1)
+                    Case "My teammates should check whether I speak for at least one minute": Winners(z, 4) = "Teammates"
+                    Case "The whole class should check whether I speak for at least one minute": Winners(z, 4) = "Whole class"
+                    Case "The teacher should check whether I speak for at least one minute": Winners(z, 4) = "Teacher"
+                    Case "Students who speak for less than one minute should lose a few points": Winners(z, 5) = "Small effect on grade"
+                    Case "Students who speak for less than one minute should lose a lot of points": Winners(z, 5) = "Large effect on grade"
+                    Case "Students who speak for less than one minute should get no points": Winners(z, 5) = "Zero points if not one minute"
+                End Select
+            Next a
+            z = z + 1
+        Case "Being entertaining is important and it should be graded"
+            Winners(z, 3) = "Being entertaining"
+            For a = 2 To y - 7 Step 1
+                Select Case Winners(a, 1)
+                    Case "My teammates should decide whether I was entertaining": Winners(z, 4) = "Teammates"
+                    Case "The whole class should decide whether I was entertaining": Winners(z, 4) = "Whole class"
+                    Case "The teacher should decide whether I was entertaining": Winners(z, 4) = "Teacher"
+                End Select
+            Next a
+            z = z + 1</code>
+        </p></pre>
       </div>
     </aside>
 
