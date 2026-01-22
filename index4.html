@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split-Screen Tutorial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --border: #e0e0e0;
+            --text-secondary: #666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Merriweather', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f7;
+        }
+
+        .doc-header {
+            border-bottom: 1px solid var(--border);
+            padding: 5rem 2rem 4rem;
+            background: linear-gradient(
+                to bottom,
+                #ffffff 0%,
+                #ffffff 80%,
+                #fafafa 100%
+            );
+        }
+
+        .doc-header-inner {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .doc-eyebrow {
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .doc-title {
+            font-size: 3rem;
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .doc-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 720px;
+            margin-bottom: 2rem;
+        }
+
+        .doc-meta {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .doc-divider {
+            margin: 0 0.4rem;
+        }
+
+        .doc-tags span {
+            display: inline-block;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+            margin-right: 0.4rem;
+            border-radius: 999px;
+            background: #f5f5f7;
+            border: 1px solid var(--border);
+        }
+
+        .tutorial-container {
+            display: flex;
+            min-height: 100vh;
+            gap: 16px;
+            background: white; 
+        }
+
+        .content-area {
+            flex: 1;
+            max-width: 720px;
+            padding: 60px 16px 60px 80px;
+            background: white;
+        }
+
+        .preview-area {
+            width: 520px;
+            background: transparent;
+            position: relative;
+        }
+
+        .preview-item {
+            position: absolute;
+            left: 0;
+            right: 0;
+            padding: 0;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .preview-item.active {
+            opacity: 1;
+        }
+
+        .preview-item.sticky {
+            position: fixed;
+            width: 600px;
+        }
+
+        .preview-content {
+            background: white;
+            border-radius: 20px;
+            padding: 10px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .preview-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .preview-content.code-preview {
+            max-width: 400px;
+            padding: 0;
+            background: #1e1e1e;
+            overflow: hidden;
+        }
+
+        .code-preview-header {
+            background: #2d2d2d;
+            padding: 12px 20px;
+            border-bottom: 1px solid #3e3e3e;
+            font-size: 12px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .code-preview-header a {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .code-preview-header a:hover {
+            color: #fff;
+        }
+
+        .code-preview-content {
+            padding: 20px;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            overflow-x: auto;
+        }
+
+        .code-preview-content.auto-size {
+            font-size: 11px;
+        }
+
+        .code-preview-content.auto-size-small {
+            font-size: 9px;
+        }
+
+        .code-preview-content pre {
+            margin: 0;
+        }
+
+        .code-preview-content code {
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 13px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1d1d1f;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            color: #1d1d1f;
+        }
+
+        p {
+              font-size: 16px;
+            line-height: 1.6;
+            color: #1d1d1f;
+            margin-bottom: 16px;
+        }
+
+        ul, ol {
+            font-size: 16px;
+            line-height: 1.4;
+            color: #1d1d1f;
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .code-block {
+            background: #f5f5f7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            border: 1px solid #d2d2d7;
+        }
+
+        .step-indicator {
+            display: inline-block;
+            background: #007aff;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .gradient-1 {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-2 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .gradient-3 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .gradient-4 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .gradient-5 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .notch {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 24px;
+            background: #1d1d1f;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .preview-text {
+            color: white;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .preview-text h2 {
+            color: white;
+            font-size: 24px;
+            margin: 0 0 8px 0;
+        }
+
+        .preview-text p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .icon-large {
+            font-size: 60px;
+            margin-bottom: 16px;
+        }
+
+        section {
+            margin-bottom: 200px;
+        }
+
+        section:last-of-type {
+            margin-bottom: 100px;
+        }
+
+        @media (max-width: 1024px) {
+            .tutorial-container {
+                flex-direction: column;
+            }
+
+            .preview-area {
+                width: 100%;
+            }
+
+            .preview-item {
+                position: relative !important;
+                width: 100% !important;
+                padding: 40px;
+            }
+
+            .content-area {
+                padding: 40px 24px;
+            }
+
+            section {
+                margin-bottom: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="doc-header">
+        <div class="doc-header-inner">
+            <p class="doc-eyebrow">Transformative Research on Agency, Collaboration & Emancipation</p>
+
+            <h1 class="doc-title">
+                Custom Student Grading Tools
+            </h1>
+
+            <p class="doc-subtitle">
+                Letting student preferences decide grading methods, building the tools they need to grade each other, and analyzing the results.
+            </p>
+
+            <div class="doc-meta">
+                <span class="doc-author">Samuel Windley</span>
+                <span class="doc-divider">·</span>
+                <time datetime="2026-01-22">January 22, 2026</time>
+                <span class="doc-divider">·</span>
+                <span class="doc-reading">15 min read</span>
+            </div>
+
+            <div class="doc-tags">
+                <span>collaboration</span>
+                <span>peer review</span>
+                <span>hybrid learning environment</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="tutorial-container">
+        <div class="content-area">
+
+            <section data-preview="preview1">
+
+                <div class="step-indicator">Step 1</div>
+                <h2>Giving students a voice when creating teams</h2>
+        <p>In lieu of a final exam, the second-year course (Practical English IV) would conclude with a "team presentation".</p>
+        <p>Before creating teams, we used a tool called <a href="https://clevergroups.com/" target="_blank">Clever 
+            Groups</a> to collect students' preferences about who they would like to work with.</p>
+        <p>When students followed the Clever Groups link we gave them, they were asked to select their first name 
+            (and an initial where necessary to distinguish between students with the same first name)
+            from a list of students in the class.</p>
+        <p>After a student selects their name, they see a dropdown menu containing the names of all their classmates and they are asked to choose their first preference
+            (the student they most want to work with). Students can select as many preferences as they like (even zero).</p>
+        <p>After all students have had an opportunity to enter their preferences, we log in to
+            Clever Groups and ask the site to generate teams given certain parameters (maximum team size, number of teams, etc.). Clever Groups then uses an algorithm to identify
+            the optimum allocation of students to teams (i.e., the allocation that best fits student preferences).
+        </p>
+        <p>We could even have triggered this team allocation in front of the students, during class, to demonstrate
+            that we were not adjusting the allocation to suit our personal preferences, etc.
+        </p>            </section>
+
+            <section data-preview="preview2">
+                <div class="step-indicator">Step 2</div>
+                <h2>Collecting student grading preferences</h2>
+        <p>The next step was to ask students questions about their presentation grading preferences, 
+            such as which aspects of a presentation they think should affect their grade, 
+            and who they trust to give them a fair grade.</p>
+        <p>Students were already familiar with <em>Kahoot!</em> from other classroom activities so we used a <em>Kahoot!</em> quiz (polls and scales) to pose the questions.
+        We asked students about the importance of the following:<ul>
+            <li>preparation</li>
+            <li>slides</li>
+            <li>speaking loudly and clearly</li>
+            <li>presentation length</li>
+            <li>being entertaining</li>
+            <li>choosing an interesting topic</li>
+            <li>how cohesive the team's presentation is overall</li>
+            <li>grading other students fairly</li>
+        </ul></p>
+        <p>We also asked students about how they wanted to grade other students. Specifically, we asked them about:
+            <ul>
+                <li>mechanics: online or on-paper</li>
+                <li>timing: during the presentations or afterwards</li>
+                <li>composition: one score for the whole team or separate scores per speaker</li>
+                <li>scaffolding: whether they wanted us to provide a rubric or not</li>
+            </ul>
+            </p>
+        <p>Finally, we asked students about how much they trusted the following people to give them a fair grade:
+            <ul>
+                <li>The teacher</li>
+                <li>Their teammates</li>
+                <li>Their classmates</li>
+            </ul>
+        </p>
+            </section>
+
+            <section data-preview="preview3">
+                <h2>Section 3</h2>
+                <div class="step-indicator">Step 3</div>
+                <h3>Combine Views Using Stacks</h3>
+                <p>Beyond the title view you created in the previous section, you'll add text views to contain details about the landmark, such as the name of the park and state it's in.</p>
+                <p>When creating a SwiftUI view, you describe its content, layout, and behavior in the view's body property. However, the body property only returns a single view. You can combine and embed multiple views in stacks, which group views together horizontally, vertically, or back-to-front.</p>
+
+                <div class="code-block">VStack(alignment: .leading) {
+    Text("Turtle Rock")
+        .font(.title)
+    HStack {
+        Text("Joshua Tree National Park")
+            .font(.subheadline)
+        Spacer()
+        Text("California")
+            .font(.subheadline)
+    }
+}</div>
+
+                <p>VStack arranges views vertically, while HStack arranges them horizontally. The Spacer pushes views apart to use available space.</p>
+                <p>Notice how the preview on the right now shows the actual code implementation instead of a mockup. This is useful when you want to highlight specific code snippets that relate to the section.</p>
+            </section>
+
+            <section data-preview="preview4">
+                <h2>Section 4</h2>
+                <div class="step-indicator">Step 4</div>
+                <h3>Create a Custom Image View</h3>
+                <p>With the name and place views all set, the next step is to add an image for the landmark.</p>
+                <p>Instead of adding more code to this file, you'll create a custom view that applies a mask, border, and drop shadow to the image.</p>
+
+                <div class="code-block">Image("turtlerock")
+    .clipShape(Circle())
+    .overlay(Circle().stroke(Color.white, lineWidth: 4))
+    .shadow(radius: 7)</div>
+
+                <p>The clipShape modifier masks the image to a circle. The overlay adds a white border, and shadow gives it depth.</p>
+                <p>These modifiers can be combined to create sophisticated visual effects with just a few lines of code.</p>
+            </section>
+
+            <section data-preview="preview5">
+                <h2>Section 5</h2>
+                <div class="step-indicator">Step 5</div>
+                <h3>Use SwiftUI Views From Other Frameworks</h3>
+                <p>Next you'll add a map to the detail view. You can use the Map view from MapKit to render a map interface.</p>
+                <p>When you build views in SwiftUI, you can use standard views and views from other frameworks side-by-side. In this case, you'll include a Map view from MapKit along with your custom SwiftUI views.</p>
+
+                <div class="code-block">Map(coordinateRegion: $region)
+    .frame(height: 300)</div>
+
+                <p>The Map view integrates seamlessly with SwiftUI. The $ prefix creates a binding, allowing the map to update its displayed region.</p>
+                <p>Notice how the preview on the right changes as you scroll through different sections. Each section has its own corresponding preview.</p>
+            </section>
+
+            <h2>Conclusion</h2>
+            <p>You've now created a landmark detail view that combines text, images, and maps. The split-screen layout allows you to see your changes in real-time as you follow along with the tutorial.</p>
+            <p>This layout pattern uses JavaScript to position preview panels that align with their corresponding sections and stay fixed as you scroll through each section.</p>
+        </div>
+
+        <div class="preview-area">
+            <div class="preview-item" id="preview1">
+                <div class="preview-content">
+                    <img src="CleverGroups.jpg" alt="Clever Groups screenshot">
+                </div>
+            </div>
+
+            <div class="preview-item" id="preview2">
+                <div class="preview-content">
+                    <img src="KahootExample.jpg" alt="Collated extract from Kahoot! quiz">
+                </div>
+            </div>
+
+            <div class="preview-item" id="preview3">
+                <div class="preview-content code-preview">
+                    <div class="code-preview-header">
+                        <a href="/path/to/ContentView.swift" target="_blank">ContentView.swift</a>
+                    </div>
+                    <div class="code-preview-content"><pre><code class="language-swift">struct ContentView: View {
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Turtle Rock")
+                .font(.title)
+            HStack {
+                Text("Joshua Tree")
+                    .font(.subheadline)
+                Spacer()
+                Text("California")
+                    .font(.subheadline)
+            }
+        }
+    }
+}</code></pre></div>
+                </div>
+            </div>
+
+            <div class="preview-item" id="preview4">
+                <div class="preview-content">
+                    <div class="phone-mockup">
+                        <div class="screen gradient-4">
+                            <div class="notch"></div>
+                            <div class="preview-text">
+                                <div class="icon-large">🖼️</div>
+                                <h2>Image View</h2>
+                                <p>Circular mask with border</p>
+                                <p style="margin-top: 8px; font-size: 14px;">and shadow effects</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-item" id="preview5">
+                <div class="preview-content">
+                    <div class="phone-mockup">
+                        <div class="screen gradient-5">
+                            <div class="notch"></div>
+                            <div class="preview-text">
+                                <div class="icon-large">🗺️</div>
+                                <h2>MapKit Integration</h2>
+                                <p>Combining frameworks</p>
+                                <p style="margin-top: 8px; font-size: 14px;">SwiftUI + MapKit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>
+        // Initialize syntax highlighting
+        hljs.highlightAll();
+        
+        // Auto-resize code font based on width
+        function adjustCodeSize() {
+            document.querySelectorAll('.code-preview-content').forEach(codeBlock => {
+                const pre = codeBlock.querySelector('pre');
+                const code = codeBlock.querySelector('code');
+                
+                if (pre && code) {
+                    // Reset classes first
+                    codeBlock.classList.remove('auto-size', 'auto-size-small');
+                    
+                    // Check if content is wider than container
+                    const codeWidth = code.scrollWidth;
+                    const containerWidth = codeBlock.clientWidth - 40; // Account for padding
+                    
+                    if (codeWidth > containerWidth) {
+                        // Try medium size first
+                        codeBlock.classList.add('auto-size');
+                        
+                        // If still too wide, go smaller
+                        setTimeout(() => {
+                            const newCodeWidth = code.scrollWidth;
+                            if (newCodeWidth > containerWidth) {
+                                codeBlock.classList.remove('auto-size');
+                                codeBlock.classList.add('auto-size-small');
+                            }
+                        }, 10);
+                    }
+                }
+            });
+        }
+        
+        function positionPreviews() {
+            const sections = document.querySelectorAll('section[data-preview]');
+            const previewArea = document.querySelector('.preview-area');
+            const previewAreaRect = previewArea.getBoundingClientRect();
+            
+            sections.forEach(section => {
+                const previewId = section.getAttribute('data-preview');
+                const preview = document.getElementById(previewId);
+                const sectionRect = section.getBoundingClientRect();
+                const sectionTop = section.offsetTop;
+                
+                // Position preview to align with section
+                preview.style.top = sectionTop + 'px';
+            });
+        }
+
+        function handleScroll() {
+            const sections = document.querySelectorAll('section[data-preview]');
+            const scrollTop = window.scrollY;
+            const previewArea = document.querySelector('.preview-area');
+            const previewAreaRect = previewArea.getBoundingClientRect();
+            
+            // Find which section we're currently in
+            let currentSectionIndex = -1;
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionBottom = sectionTop + section.offsetHeight;
+                
+                if (scrollTop >= sectionTop - 200) {
+                    currentSectionIndex = index;
+                }
+            });
+            
+            // Update all previews
+            sections.forEach((section, index) => {
+                const previewId = section.getAttribute('data-preview');
+                const preview = document.getElementById(previewId);
+                const sectionTop = section.offsetTop;
+                
+                // Show the preview for the current section
+                if (index === currentSectionIndex) {
+                    preview.classList.add('sticky', 'active');
+                    preview.style.top = '0px';
+                    preview.style.left = previewAreaRect.left + 'px';
+                } else {
+                    preview.classList.remove('sticky', 'active');
+                    preview.style.top = sectionTop + 'px';
+                    preview.style.left = '0';
+                }
+            });
+        }
+
+        // Initial positioning
+        positionPreviews();
+        adjustCodeSize();
+        
+        // Update on scroll
+        window.addEventListener('scroll', handleScroll);
+        
+        // Update on resize
+        window.addEventListener('resize', () => {
+            positionPreviews();
+            handleScroll();
+            adjustCodeSize();
+        });
+        
+        // Initial scroll check
+        handleScroll();
+    </script>
+</body>
+</html>
