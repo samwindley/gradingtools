@@ -147,6 +147,14 @@
             overflow: hidden;
         }
 
+        section.active-section {
+            border-left: 4px solid #007aff;
+            /* padding-left: calc(80px - 4px); /* Adjust to account for border */
+            margin-left: -14px; /* Add this line */
+            padding-left: 10px; /* Add this line */
+           /*  transition: border-left 0.3s ease; */
+        }
+
         .code-preview-header {
             background: #2d2d2d;
             padding: 12px 20px;
@@ -427,61 +435,79 @@
             </section>
 
             <section data-preview="preview3">
-                <h2>Section 3</h2>
+
                 <div class="step-indicator">Step 3</div>
-                <h3>Combine Views Using Stacks</h3>
-                <p>Beyond the title view you created in the previous section, you'll add text views to contain details about the landmark, such as the name of the park and state it's in.</p>
-                <p>When creating a SwiftUI view, you describe its content, layout, and behavior in the view's body property. However, the body property only returns a single view. You can combine and embed multiple views in stacks, which group views together horizontally, vertically, or back-to-front.</p>
-
-                <div class="code-block">VStack(alignment: .leading) {
-    Text("Turtle Rock")
-        .font(.title)
-    HStack {
-        Text("Joshua Tree National Park")
-            .font(.subheadline)
-        Spacer()
-        Text("California")
-            .font(.subheadline)
-    }
-}</div>
-
-                <p>VStack arranges views vertically, while HStack arranges them horizontally. The Spacer pushes views apart to use available space.</p>
-                <p>Notice how the preview on the right now shows the actual code implementation instead of a mockup. This is useful when you want to highlight specific code snippets that relate to the section.</p>
-            </section>
+                <h2>Giving students a voice when creating teams</h2>
+        <p>In lieu of a final exam, the second-year course (Practical English IV) would conclude with a "team presentation".</p>
+        <p>Before creating teams, we used a tool called <a href="https://clevergroups.com/" target="_blank">Clever 
+            Groups</a> to collect students' preferences about who they would like to work with.</p>
+        <p>When students followed the Clever Groups link we gave them, they were asked to select their first name 
+            (and an initial where necessary to distinguish between students with the same first name)
+            from a list of students in the class.</p>
+        <p>After a student selects their name, they see a dropdown menu containing the names of all their classmates and they are asked to choose their first preference
+            (the student they most want to work with). Students can select as many preferences as they like (even zero).</p>
+        <p>After all students have had an opportunity to enter their preferences, we log in to
+            Clever Groups and ask the site to generate teams given certain parameters (maximum team size, number of teams, etc.). Clever Groups then uses an algorithm to identify
+            the optimum allocation of students to teams (i.e., the allocation that best fits student preferences).
+        </p>
+        <p>We could even have triggered this team allocation in front of the students, during class, to demonstrate
+            that we were not adjusting the allocation to suit our personal preferences, etc.
+        </p>            </section>
 
             <section data-preview="preview4">
-                <h2>Section 4</h2>
                 <div class="step-indicator">Step 4</div>
-                <h3>Create a Custom Image View</h3>
-                <p>With the name and place views all set, the next step is to add an image for the landmark.</p>
-                <p>Instead of adding more code to this file, you'll create a custom view that applies a mask, border, and drop shadow to the image.</p>
-
-                <div class="code-block">Image("turtlerock")
-    .clipShape(Circle())
-    .overlay(Circle().stroke(Color.white, lineWidth: 4))
-    .shadow(radius: 7)</div>
-
-                <p>The clipShape modifier masks the image to a circle. The overlay adds a white border, and shadow gives it depth.</p>
-                <p>These modifiers can be combined to create sophisticated visual effects with just a few lines of code.</p>
+                <h2>Collecting student grading preferences</h2>
+        <p>The next step was to ask students questions about their presentation grading preferences, 
+            such as which aspects of a presentation they think should affect their grade, 
+            and who they trust to give them a fair grade.</p>
+        <p>Students were already familiar with <em>Kahoot!</em> from other classroom activities so we used a <em>Kahoot!</em> quiz (polls and scales) to pose the questions.
+        We asked students about the importance of the following:<ul>
+            <li>preparation</li>
+            <li>slides</li>
+            <li>speaking loudly and clearly</li>
+            <li>presentation length</li>
+            <li>being entertaining</li>
+            <li>choosing an interesting topic</li>
+            <li>how cohesive the team's presentation is overall</li>
+            <li>grading other students fairly</li>
+        </ul></p>
+        <p>We also asked students about how they wanted to grade other students. Specifically, we asked them about:
+            <ul>
+                <li>mechanics: online or on-paper</li>
+                <li>timing: during the presentations or afterwards</li>
+                <li>composition: one score for the whole team or separate scores per speaker</li>
+                <li>scaffolding: whether they wanted us to provide a rubric or not</li>
+            </ul>
+            </p>
+        <p>Finally, we asked students about how much they trusted the following people to give them a fair grade:
+            <ul>
+                <li>The teacher</li>
+                <li>Their teammates</li>
+                <li>Their classmates</li>
+            </ul>
+        </p>
             </section>
 
-            <section data-preview="preview5">
-                <h2>Section 5</h2>
+             <section data-preview="preview5">
+
                 <div class="step-indicator">Step 5</div>
-                <h3>Use SwiftUI Views From Other Frameworks</h3>
-                <p>Next you'll add a map to the detail view. You can use the Map view from MapKit to render a map interface.</p>
-                <p>When you build views in SwiftUI, you can use standard views and views from other frameworks side-by-side. In this case, you'll include a Map view from MapKit along with your custom SwiftUI views.</p>
+                <h2>Giving students a voice when creating teams</h2>
+        <p>In lieu of a final exam, the second-year course (Practical English IV) would conclude with a "team presentation".</p>
+        <p>Before creating teams, we used a tool called <a href="https://clevergroups.com/" target="_blank">Clever 
+            Groups</a> to collect students' preferences about who they would like to work with.</p>
+        <p>When students followed the Clever Groups link we gave them, they were asked to select their first name 
+            (and an initial where necessary to distinguish between students with the same first name)
+            from a list of students in the class.</p>
+        <p>After a student selects their name, they see a dropdown menu containing the names of all their classmates and they are asked to choose their first preference
+            (the student they most want to work with). Students can select as many preferences as they like (even zero).</p>
+        <p>After all students have had an opportunity to enter their preferences, we log in to
+            Clever Groups and ask the site to generate teams given certain parameters (maximum team size, number of teams, etc.). Clever Groups then uses an algorithm to identify
+            the optimum allocation of students to teams (i.e., the allocation that best fits student preferences).
+        </p>
+        <p>We could even have triggered this team allocation in front of the students, during class, to demonstrate
+            that we were not adjusting the allocation to suit our personal preferences, etc.
+        </p>            </section>
 
-                <div class="code-block">Map(coordinateRegion: $region)
-    .frame(height: 300)</div>
-
-                <p>The Map view integrates seamlessly with SwiftUI. The $ prefix creates a binding, allowing the map to update its displayed region.</p>
-                <p>Notice how the preview on the right changes as you scroll through different sections. Each section has its own corresponding preview.</p>
-            </section>
-
-            <h2>Conclusion</h2>
-            <p>You've now created a landmark detail view that combines text, images, and maps. The split-screen layout allows you to see your changes in real-time as you follow along with the tutorial.</p>
-            <p>This layout pattern uses JavaScript to position preview panels that align with their corresponding sections and stay fixed as you scroll through each section.</p>
         </div>
 
         <div class="preview-area">
@@ -498,57 +524,20 @@
             </div>
 
             <div class="preview-item" id="preview3">
-                <div class="preview-content code-preview">
-                    <div class="code-preview-header">
-                        <a href="/path/to/ContentView.swift" target="_blank">ContentView.swift</a>
-                    </div>
-                    <div class="code-preview-content"><pre><code class="language-swift">struct ContentView: View {
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text("Turtle Rock")
-                .font(.title)
-            HStack {
-                Text("Joshua Tree")
-                    .font(.subheadline)
-                Spacer()
-                Text("California")
-                    .font(.subheadline)
-            }
-        }
-    }
-}</code></pre></div>
+                <div class="preview-content">
+                    <img src="CleverGroups.jpg" alt="Clever Groups screenshot">
                 </div>
             </div>
 
             <div class="preview-item" id="preview4">
                 <div class="preview-content">
-                    <div class="phone-mockup">
-                        <div class="screen gradient-4">
-                            <div class="notch"></div>
-                            <div class="preview-text">
-                                <div class="icon-large">🖼️</div>
-                                <h2>Image View</h2>
-                                <p>Circular mask with border</p>
-                                <p style="margin-top: 8px; font-size: 14px;">and shadow effects</p>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="CleverGroups.jpg" alt="Clever Groups screenshot">
                 </div>
             </div>
 
             <div class="preview-item" id="preview5">
                 <div class="preview-content">
-                    <div class="phone-mockup">
-                        <div class="screen gradient-5">
-                            <div class="notch"></div>
-                            <div class="preview-text">
-                                <div class="icon-large">🗺️</div>
-                                <h2>MapKit Integration</h2>
-                                <p>Combining frameworks</p>
-                                <p style="margin-top: 8px; font-size: 14px;">SwiftUI + MapKit</p>
-                            </div>
-                        </div>
-                    </div>
+                    <img src="CleverGroups.jpg" alt="Clever Groups screenshot">
                 </div>
             </div>
         </div>
@@ -632,11 +621,13 @@
                 // Show the preview for the current section
                 if (index === currentSectionIndex) {
                     preview.classList.add('sticky', 'active');
-                    preview.style.top = '0px';
+                    preview.style.top = '60px';
+                    section.classList.add('active-section'); 
                     preview.style.left = previewAreaRect.left + 'px';
                 } else {
                     preview.classList.remove('sticky', 'active');
                     preview.style.top = sectionTop + 'px';
+                    section.classList.remove('active-section');
                     preview.style.left = '0';
                 }
             });
